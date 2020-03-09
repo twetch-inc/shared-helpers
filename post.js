@@ -2,19 +2,6 @@ const _ = require('lodash');
 const { TWETCH_POST_REGEX, TWETCH_REPLY_REGEX, MENTION_REGEX } = require('./regex');
 
 class PostHelper {
-	static fromMedia(media) {
-		const replyTransaction =
-			media.indexOf('reply') !== -1 ? media[media.indexOf('reply') + 1] : null;
-
-		return {
-			bContent: media[1],
-			bContentType: media[2],
-			mapComment: media[13],
-			moneyButtonUserId: media[media.indexOf('mb_user') + 1],
-			replyTransaction
-		};
-	}
-
 	static description(post, options = { underscore: false }) {
 		let mapComment = _.get(post, 'mapComment');
 		let bContent = _.get(post, 'bContent');
@@ -51,6 +38,24 @@ class PostHelper {
 			/^video\//g.test(contentType) ||
 			/^audio\//g.test(contentType)
 		);
+	}
+
+	static mediaType(contentType) {
+		if (!this.isMedia(contentType)) {
+			return;
+		}
+
+		if (/^image\//g.test(contentType)) {
+			return 'image';
+		}
+
+		if (/^video\//g.test(contentType)) {
+			return 'video';
+		}
+
+		if (/^audio\//g.test(contentType)) {
+			return 'audio';
+		}
 	}
 
 	static isBranch(post, options = {}) {
