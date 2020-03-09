@@ -1,0 +1,15 @@
+{
+  "name": "shared-helpers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "post-validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "4.17.15",
+    "validator": "12.2.0"
+  }
+}

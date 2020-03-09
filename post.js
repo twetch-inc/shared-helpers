@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { TWETCH_POST_REGEX, TWETCH_REPLY_REGEX, MENTION_REGEX } = require('../regex');
+const { TWETCH_POST_REGEX, TWETCH_REPLY_REGEX, MENTION_REGEX } = require('./regex');
 
 class PostHelper {
 	static fromMedia(media) {
