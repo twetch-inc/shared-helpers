@@ -1,0 +1,19 @@
+const TWITTER_REGEX = /http(s)?:\/\/(.*\.)?twitter\.com\/[A-z0-9_/?=]+/;
+const SOUNDCLOUD_REGEX = /http(s)?:\/\/(.*\.)?soundcloud\.com\/[A-z0-9_/?=-]+/;
+const MENTION_REGEX = /(@[0-9]+)/g;
+const TWETCH_POST_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/([A-z0-9_/?=]+)/;
+const TWETCH_REPLY_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/[A-z0-9_/?=]+#([A-z0-9_/?=]+)/;
+/* eslint-disable */
+const YOUTUBE_REGEX = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+/* eslint-enable */
+const POST_NEWLINE_REGEX = /\n{3,}/g;
+
+module.exports = {
+	TWETCH_POST_REGEX,
+	TWETCH_REPLY_REGEX,
+	TWITTER_REGEX,
+	MENTION_REGEX,
+	YOUTUBE_REGEX,
+	SOUNDCLOUD_REGEX,
+	POST_NEWLINE_REGEX
+};
