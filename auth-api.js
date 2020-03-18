@@ -4,6 +4,9 @@ class AuthApi {
 	constructor(options) {
 		this.client = axios.create({
 			baseURL: 'https://auth.twetch.com',
+			headers: {
+				Authorization: process.browser && `Bearer ${localStorage.getItem('tokenTwetchAuth')}`
+			},
 			...options
 		});
 	}
@@ -33,8 +36,12 @@ class AuthApi {
 	}
 
 	async approved() {
-		const r = await this.client.get('/api/v1/me/approved');
-		return r.data;
+		try {
+			const r = await this.client.get('/api/v1/me/approved');
+			return !!r.data.approved;
+		} catch (e) {
+			return false;
+		}
 	}
 }
 
