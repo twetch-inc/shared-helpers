@@ -29,7 +29,7 @@ class AuthApi {
 
 	async paymail() {
 		const r = await this.client.get('/api/v1/me/paymail');
-		return r.data;
+		return r.data.paymail;
 	}
 
 	async approved() {
