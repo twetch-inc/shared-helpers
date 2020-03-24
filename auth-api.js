@@ -40,6 +40,11 @@ class AuthApi {
 			return false;
 		}
 	}
+
+	async publicKeys(userId) {
+		const r = await this.client.get(`/api/v1/users/${userId}/public-keys`);
+		return r.data.public_keys || [];
+	}
 }
 
 module.exports = AuthApi;
