@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { TWETCH_POST_REGEX, TWETCH_REPLY_REGEX, MENTION_REGEX } = require('./regex');
+const { TWETCH_POST_REGEX, TWETCH_REPLY_REGEX, MENTION_REGEX, PAY_REGEX } = require('./regex');
 
 class PostHelper {
 	static description(post, options = { underscore: false }) {
@@ -128,6 +128,21 @@ class PostHelper {
 		}
 
 		return _.uniq((description.match(MENTION_REGEX) || []).map(e => e.replace('@', '')));
+	}
+
+	static payCommand(description, options = {}) {
+		if (typeof description === 'object') {
+			description = this.description(description, options);
+		}
+
+		const match = description.match(PAY_REGEX);
+
+		if (!match) {
+			return;
+		}
+
+		const [r, command, userId, amount] = match;
+		return { command, userId, amount };
 	}
 }
 

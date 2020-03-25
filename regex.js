@@ -10,6 +10,7 @@ const VIZ_REGEX = /http(s)?:\/\/(.*\.)?viz\.cash\/v\/([A-z0-9]+)/;
 const YOUTUBE_REGEX = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
 /* eslint-enable */
 const HASHTAG_REGEX = /(#bitcoin)/gi;
+const PAY_REGEX = /\/(pay) @([0-9]+) \$([0-9]+(.[0-9]+)?)/m;
 
 module.exports = {
 	BITCOIN_FILES_REGEX,
@@ -21,5 +22,6 @@ module.exports = {
 	TWITTER_REGEX,
 	VIZ_REGEX,
 	YOUTUBE_REGEX,
-	HASHTAG_REGEX
+	HASHTAG_REGEX,
+	PAY_REGEX
 };
