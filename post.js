@@ -3,8 +3,7 @@ const {
 	MULTI_PAY_REGEX,
 	TWETCH_POST_REGEX,
 	TWETCH_REPLY_REGEX,
-	MENTION_REGEX,
-	PAY_REGEX
+	MENTION_REGEX
 } = require('./regex');
 
 class PostHelper {
@@ -137,21 +136,6 @@ class PostHelper {
 	}
 
 	static payCommand(description, options = {}) {
-		if (typeof description === 'object') {
-			description = this.description(description, options);
-		}
-
-		const match = description.match(PAY_REGEX);
-
-		if (!match) {
-			return;
-		}
-
-		const [r, command, userId, amount] = match;
-		return { command, userId, amount };
-	}
-
-	static payCommands(description, options = {}) {
 		if (typeof description === 'object') {
 			description = this.description(description, options);
 		}
