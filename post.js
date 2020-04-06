@@ -3,7 +3,8 @@ const {
 	MULTI_PAY_REGEX,
 	TWETCH_POST_REGEX,
 	TWETCH_REPLY_REGEX,
-	MENTION_REGEX
+	MENTION_REGEX,
+	TROLL_TOLL_REGEX
 } = require('./regex');
 
 class PostHelper {
@@ -148,6 +149,21 @@ class PostHelper {
 
 		const [r, command, mentions, x, y, amount] = match;
 		return { command, userIds: this.mentions(mentions), amount };
+	}
+
+	static trollTollCommand(description, options = {}) {
+		if (typeof description === 'object') {
+			description = this.description(description, options);
+		}
+
+		const match = description.match(TROLL_TOLL_REGEX);
+
+		if (!match) {
+			return;
+		}
+
+		const [r, command, x, userId, y, amount] = match;
+		return { command: command.toLowerCase(), userId, amount };
 	}
 }
 
