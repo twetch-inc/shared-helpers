@@ -4,12 +4,15 @@
   "description": "",
   "main": "post-validator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "lodash": "4.17.15",
     "validator": "12.2.0"
+  },
+  "devDependencies": {
+    "jest": "^25.2.7"
   }
 }

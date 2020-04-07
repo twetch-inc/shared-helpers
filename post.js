@@ -162,8 +162,8 @@ class PostHelper {
 			return;
 		}
 
-		const [r, command, x, userId, y, amount] = match;
-		return { command: command.toLowerCase(), userId, amount };
+		const [r, command, action, userId, x, amount] = match;
+		return { command: command.toLowerCase(), action, userId, amount };
 	}
 }
 
