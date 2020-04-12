@@ -165,6 +165,31 @@ class PostHelper {
 		const [r, command, action, userId, x, amount] = match;
 		return { command: command.toLowerCase(), action, userId, amount };
 	}
+
+	static estimate(post) {
+		let value = 0.02;
+
+		if (post.replyPostId) {
+			value += 0.01;
+		}
+
+		const description = PostHelper.description(post);
+		const mentions = PostHelper.mentions(description);
+		const branchTransaction = PostHelper.branchTransaction(description);
+		const payCommand = PostHelper.payCommand(description);
+
+		value += mentions.length * 0.005;
+
+		if (branchTransaction) {
+			value += 0.01;
+		}
+
+		if (payCommand) {
+			value += parseFloat(payCommand.amount);
+		}
+
+		return value;
+	}
 }
 
 module.exports = PostHelper;
