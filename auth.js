@@ -1,6 +1,5 @@
 const Postmate = require('postmate').default;
-const SELF_URL = 'https://auth-frontend.twetch.com';
-//const SELF_URL = 'http://localhost:3003';
+const SELF_URL = 'https://auth-frontend.twetch.app';
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));

@@ -3,7 +3,7 @@ const axios = require('axios');
 class AuthApi {
 	constructor(options) {
 		this.client = axios.create({
-			baseURL: 'https://auth.twetch.com',
+			baseURL: 'https://auth.twetch.app',
 			...options
 		});
 	}
