@@ -106,8 +106,15 @@ test('/pay command multi', () => {
 	expect(payCommand.userIds).toStrictEqual(['1', '2', '3']);
 });
 
+test('/trolltoll fake command', () => {
+	const post = { bContent: '/trolltoll set @1 $1.25 hello world', bContentType: 'text/plain' };
+	const command = PostHelper.trollTollCommand(post);
+
+	expect(command).toBe(undefined);
+});
+
 test('/trolltoll set command', () => {
-	const post = { bContent: '/trolltoll set @1 $1.25', bContentType: 'text/plain' };
+	const post = { bContent: '/trolltoll set @1 $1.25\n  ', bContentType: 'text/plain' };
 	const command = PostHelper.trollTollCommand(post);
 
 	expect(command.command).toBe('trolltoll');

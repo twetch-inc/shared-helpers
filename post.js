@@ -162,6 +162,10 @@ class PostHelper {
 			return;
 		}
 
+		if (description.replace(TROLL_TOLL_REGEX, '').trim()) {
+			return;
+		}
+
 		const [r, command, action, userId, x, amount] = match;
 		return { command: command.toLowerCase(), action, userId, amount };
 	}
