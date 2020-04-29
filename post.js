@@ -1,4 +1,6 @@
-const _ = require('lodash');
+const _get = require('lodash/get');
+const _uniq = require('lodash/uniq');
+
 const {
 	MULTI_PAY_REGEX,
 	TWETCH_POST_REGEX,
@@ -9,14 +11,14 @@ const {
 
 class PostHelper {
 	static description(post, options = { underscore: false }) {
-		let mapComment = _.get(post, 'mapComment');
-		let bContent = _.get(post, 'bContent');
-		let contentType = _.get(post, 'bContentType', '');
+		let mapComment = _get(post, 'mapComment');
+		let bContent = _get(post, 'bContent');
+		let contentType = _get(post, 'bContentType', '');
 
 		if (options.underscore) {
-			contentType = _.get(post, 'b_content_type', '');
-			mapComment = _.get(post, 'map_comment');
-			bContent = _.get(post, 'b_content');
+			contentType = _get(post, 'b_content_type', '');
+			mapComment = _get(post, 'map_comment');
+			bContent = _get(post, 'b_content');
 		}
 
 		const description = this.isMedia(contentType) ? mapComment : bContent;
@@ -25,10 +27,10 @@ class PostHelper {
 	}
 
 	static contentType(post, options = {}) {
-		let contentType = _.get(post, 'bContentType', '');
+		let contentType = _get(post, 'bContentType', '');
 
 		if (options.underscore) {
-			contentType = _.get(post, 'b_content_type', '');
+			contentType = _get(post, 'b_content_type', '');
 		}
 
 		return contentType;
@@ -133,7 +135,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _.uniq((description.match(MENTION_REGEX) || []).map(e => e.replace('@', '')));
+		return _uniq((description.match(MENTION_REGEX) || []).map(e => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {

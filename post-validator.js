@@ -1,5 +1,9 @@
 const { TWITTER_REGEX, TWETCH_POST_REGEX, TWETCH_REPLY_REGEX } = require('./regex');
-const validator = require('validator');
+
+function isHash(str) {
+	var hash = new RegExp('^[a-fA-F0-9]{'.concat(64, '}$'));
+	return hash.test(str);
+}
 
 class PostValidator {
 	constructor({ description, transaction, contentType }) {
@@ -38,7 +42,7 @@ class PostValidator {
 			return { valid: false, error: 'transaction must have a value' };
 		}
 
-		if (!validator.isHash(this.transaction, 'sha256')) {
+		if (!isHash(this.transaction, 'sha256')) {
 			return { valid: false, error: 'transaction must be a sha256 hash' };
 		}
 
