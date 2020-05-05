@@ -1,4 +1,9 @@
-const { TWITTER_REGEX, TWETCH_POST_REGEX, TWETCH_REPLY_REGEX } = require('./regex');
+const {
+	MULTIPLE_SPACES_REGEX,
+	TWITTER_REGEX,
+	TWETCH_POST_REGEX,
+	TWETCH_REPLY_REGEX
+} = require('./regex');
 
 function isHash(str) {
 	var hash = new RegExp('^[a-fA-F0-9]{'.concat(64, '}$'));
@@ -77,6 +82,7 @@ class PostValidator {
 		}
 
 		return this.description
+			.replace(MULTIPLE_SPACES_REGEX, ' ')
 			.replace(TWITTER_REGEX, '')
 			.replace(TWETCH_POST_REGEX, '')
 			.replace(TWETCH_REPLY_REGEX, '').length;
