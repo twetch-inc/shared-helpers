@@ -132,3 +132,10 @@ test('/trolltoll remove command', () => {
 	expect(command.userId).toBe('1');
 	expect(command.amount).toBe(undefined);
 });
+
+test('entities', () => {
+	const post = { bContent: '/trolltoLl remove @1', bContentType: 'text/plain' };
+	const entities = PostHelper.entities(post);
+
+	console.log(entities);
+});

@@ -10,6 +10,28 @@ const {
 } = require('./regex');
 
 class PostHelper {
+	static entities(post, options = { underscore: false }) {
+		const description = PostHelper.description(post, options);
+		const contentType = PostHelper.contentType(post, options);
+
+		return {
+			description,
+			contentType,
+			mediaType: PostHelper.mediaType(contentType),
+			isMedia: PostHelper.isMedia(contentType),
+			isBranch: PostHelper.isBranch(post, options),
+			isQuote: PostHelper.isQuote(post, options),
+			type: PostHelper.type(post, options),
+			branchTransaction: PostHelper.branchTransaction(description, options),
+			mentions: PostHelper.mentions(description, options),
+			estimateCost: PostHelper.estimate(post),
+			commands: {
+				pay: PostHelpers.payCommand(description, options),
+				trollToll: PostHelpers.trollTollCommand(description, options)
+			}
+		};
+	}
+
 	static description(post, options = { underscore: false }) {
 		let mapComment = _get(post, 'mapComment');
 		let bContent = _get(post, 'bContent');
