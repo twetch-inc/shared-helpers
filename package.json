@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "4.17.15",
+    "prettier": "2.0.5",
     "validator": "12.2.0"
   },
   "devDependencies": {

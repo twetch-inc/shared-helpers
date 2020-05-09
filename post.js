@@ -1,34 +1,55 @@
 const _get = require('lodash/get');
 const _uniq = require('lodash/uniq');
-
-const {
-	MULTI_PAY_REGEX,
-	TWETCH_POST_REGEX,
-	TWETCH_REPLY_REGEX,
-	MENTION_REGEX,
-	TROLL_TOLL_REGEX
-} = require('./regex');
+const regex = require('./regex');
 
 class PostHelper {
 	static entities(post, options = { underscore: false }) {
-		const description = PostHelper.description(post, options);
-		const contentType = PostHelper.contentType(post, options);
+		const description = this.description(post, options);
+		const contentType = this.contentType(post, options);
+		const displayDescription = this.displayDescription(post);
+		const descriptionParts = displayDescription.split('\n');
 
 		return {
-			description,
+			branchTransaction: this.branchTransaction(description, options),
 			contentType,
-			mediaType: PostHelper.mediaType(contentType),
-			isMedia: PostHelper.isMedia(contentType),
-			isBranch: PostHelper.isBranch(post, options),
-			isQuote: PostHelper.isQuote(post, options),
-			type: PostHelper.type(post, options),
-			branchTransaction: PostHelper.branchTransaction(description, options),
-			mentions: PostHelper.mentions(description, options),
-			estimateCost: PostHelper.estimate(post),
+			description,
+			displayDescription,
+			estimateCost: this.estimate(post),
+			isBranch: this.isBranch(post, options),
+			isMedia: this.isMedia(contentType),
+			isQuote: this.isQuote(post, options),
+			mediaType: this.mediaType(contentType),
+			mentions: this.mentions(description, options),
+			type: this.type(post, options),
+			embeds: {
+				soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
+				viz: description.match(regex.VIZ_REGEX),
+				youtube: description.match(regex.YOUTUBE_REGEX),
+				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX),
+			},
+			elements: descriptionParts
+				.filter((e, i) => e || descriptionParts[i + 1])
+				.map((v) =>
+					v
+						.split(regex.MENTION_REGEX)
+						.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
+						.filter((e) => e)
+						.map((e) => {
+							if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
+								return { type: 'hashtag', value: `${e} 🐉` };
+							}
+
+							if (e.startsWith('@') && !isNaN(parseInt(e.replace('@', ''), 10))) {
+								return { type: 'mention', value: e, userId: e.replace('@', '') };
+							}
+
+							return { type: 'text', value: e };
+						})
+				),
 			commands: {
-				pay: PostHelpers.payCommand(description, options),
-				trollToll: PostHelpers.trollTollCommand(description, options)
-			}
+				pay: this.payCommand(description, options),
+				trollToll: this.trollTollCommand(description, options),
+			},
 		};
 	}
 
@@ -46,6 +67,22 @@ class PostHelper {
 		const description = this.isMedia(contentType) ? mapComment : bContent;
 
 		return description || '';
+	}
+
+	static displayDescription(post, options = {}) {
+		let description = this.description(post);
+
+		if (!description) {
+			return;
+		}
+
+		description = description.replace(regex.BITCOIN_FILES_REGEX, '');
+		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
+		description = description.replace(regex.TWETCH_POST_REGEX, '');
+		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
+		description = description.trim();
+
+		return description;
 	}
 
 	static contentType(post, options = {}) {
@@ -96,8 +133,8 @@ class PostHelper {
 			return false;
 		}
 
-		description = description.replace(TWETCH_REPLY_REGEX, '');
-		description = description.replace(TWETCH_POST_REGEX, '');
+		description = description.replace(regex.WETCH_REPLY_REGEX, '');
+		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.trim();
 
 		return !description.length && !this.isMedia(post, options) && !post.replyPostId;
@@ -134,8 +171,8 @@ class PostHelper {
 			description = '';
 		}
 
-		const match = description.match(TWETCH_POST_REGEX);
-		const replyMatch = description.match(TWETCH_REPLY_REGEX);
+		const match = description.match(regex.TWETCH_POST_REGEX);
+		const replyMatch = description.match(regex.TWETCH_REPLY_REGEX);
 
 		if (!match && !replyMatch) {
 			return;
@@ -157,7 +194,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(MENTION_REGEX) || []).map(e => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
@@ -165,7 +202,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		const match = description.match(MULTI_PAY_REGEX);
+		const match = description.match(regex.MULTI_PAY_REGEX);
 
 		if (!match) {
 			return;
@@ -180,13 +217,13 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		const match = description.match(TROLL_TOLL_REGEX);
+		const match = description.match(regex.TROLL_TOLL_REGEX);
 
 		if (!match) {
 			return;
 		}
 
-		if (description.replace(TROLL_TOLL_REGEX, '').trim()) {
+		if (description.replace(regex.TROLL_TOLL_REGEX, '').trim()) {
 			return;
 		}
 
@@ -201,10 +238,10 @@ class PostHelper {
 			value += 0.01;
 		}
 
-		const description = PostHelper.description(post);
-		const mentions = PostHelper.mentions(description);
-		const branchTransaction = PostHelper.branchTransaction(description);
-		const payCommand = PostHelper.payCommand(description);
+		const description = this.description(post);
+		const mentions = this.mentions(description);
+		const branchTransaction = this.branchTransaction(description);
+		const payCommand = this.payCommand(description);
 
 		value += mentions.length * 0.005;
 
