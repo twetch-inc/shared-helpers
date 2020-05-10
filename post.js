@@ -7,7 +7,6 @@ class PostHelper {
 		const description = this.description(post, options);
 		const contentType = this.contentType(post, options);
 		const displayDescription = this.displayDescription(post);
-		const descriptionParts = displayDescription.split('\n');
 
 		return {
 			branchTransaction: this.branchTransaction(description, options),
@@ -25,32 +24,38 @@ class PostHelper {
 				soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
 				viz: description.match(regex.VIZ_REGEX),
 				youtube: description.match(regex.YOUTUBE_REGEX),
-				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX),
+				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX)
 			},
-			elements: descriptionParts
-				.filter((e, i) => e || descriptionParts[i + 1])
-				.map((v) =>
-					v
-						.split(regex.MENTION_REGEX)
-						.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
-						.filter((e) => e)
-						.map((e) => {
-							if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
-								return { type: 'hashtag', value: `${e} 🐉` };
-							}
-
-							if (e.startsWith('@') && !isNaN(parseInt(e.replace('@', ''), 10))) {
-								return { type: 'mention', value: e, userId: e.replace('@', '') };
-							}
-
-							return { type: 'text', value: e };
-						})
-				),
+			elements: this.elements(displayDescription),
 			commands: {
 				pay: this.payCommand(description, options),
-				trollToll: this.trollTollCommand(description, options),
-			},
+				trollToll: this.trollTollCommand(description, options)
+			}
 		};
+	}
+
+	static elements(description) {
+		const descriptionParts = description.split('\n');
+
+		return descriptionParts
+			.filter((e, i) => e || descriptionParts[i + 1])
+			.map(v =>
+				v
+					.split(regex.MENTION_REGEX)
+					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
+					.filter(e => e)
+					.map(e => {
+						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
+							return { type: 'hashtag', value: `${e} 🐉` };
+						}
+
+						if (e.startsWith('@') && !isNaN(parseInt(e.replace('@', ''), 10))) {
+							return { type: 'mention', value: e, userId: e.replace('@', '') };
+						}
+
+						return { type: 'text', value: e };
+					})
+			);
 	}
 
 	static description(post, options = { underscore: false }) {
@@ -73,7 +78,7 @@ class PostHelper {
 		let description = this.description(post);
 
 		if (!description) {
-			return;
+			return '';
 		}
 
 		description = description.replace(regex.BITCOIN_FILES_REGEX, '');
@@ -194,7 +199,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map(e => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
