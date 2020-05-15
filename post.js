@@ -24,13 +24,13 @@ class PostHelper {
 				soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
 				viz: description.match(regex.VIZ_REGEX),
 				youtube: description.match(regex.YOUTUBE_REGEX),
-				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX)
+				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX),
 			},
 			elements: this.elements(displayDescription),
 			commands: {
 				pay: this.payCommand(description, options),
-				trollToll: this.trollTollCommand(description, options)
-			}
+				trollToll: this.trollTollCommand(description, options),
+			},
 		};
 	}
 
@@ -39,12 +39,12 @@ class PostHelper {
 
 		return descriptionParts
 			.filter((e, i) => e || descriptionParts[i + 1])
-			.map(v =>
+			.map((v) =>
 				v
 					.split(regex.MENTION_REGEX)
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
-					.filter(e => e)
-					.map(e => {
+					.filter((e) => e)
+					.map((e) => {
 						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: `${e} 🐉` };
 						}
@@ -79,6 +79,12 @@ class PostHelper {
 
 		if (!description) {
 			return '';
+		}
+
+		const trollTollCommand = this.trollTollCommand(description);
+
+		if (trollTollCommand) {
+			description = trollTollCommand.match[0];
 		}
 
 		description = description.replace(regex.BITCOIN_FILES_REGEX, '');
@@ -199,7 +205,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(regex.MENTION_REGEX) || []).map(e => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
@@ -214,7 +220,7 @@ class PostHelper {
 		}
 
 		const [r, command, mentions, x, y, amount] = match;
-		return { command, userIds: this.mentions(mentions), amount };
+		return { command, userIds: this.mentions(mentions), amount, match };
 	}
 
 	static trollTollCommand(description, options = {}) {
@@ -228,12 +234,8 @@ class PostHelper {
 			return;
 		}
 
-		if (description.replace(regex.TROLL_TOLL_REGEX, '').trim()) {
-			return;
-		}
-
 		const [r, command, action, userId, x, amount] = match;
-		return { command: command.toLowerCase(), action, userId, amount };
+		return { command: command.toLowerCase(), action, userId, amount, match };
 	}
 
 	static estimate(post) {

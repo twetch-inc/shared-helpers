@@ -109,14 +109,17 @@ test('/pay command multi', () => {
 test('/trolltoll fake command', () => {
 	const post = { bContent: '/trolltoll set @1 $1.25 hello world', bContentType: 'text/plain' };
 	const command = PostHelper.trollTollCommand(post);
-
-	expect(command).toBe(undefined);
+	const displayDescription = PostHelper.displayDescription(post);
+	expect(command.command).toBe('trolltoll');
+	expect(command.action).toBe('set');
+	expect(command.userId).toBe('1');
+	expect(command.amount).toBe('1.25');
+	expect(displayDescription).toBe(command.match[0]);
 });
 
 test('/trolltoll set command', () => {
 	const post = { bContent: '/trolltoll set @1 $1.25\n  ', bContentType: 'text/plain' };
 	const command = PostHelper.trollTollCommand(post);
-
 	expect(command.command).toBe('trolltoll');
 	expect(command.action).toBe('set');
 	expect(command.userId).toBe('1');
@@ -140,7 +143,6 @@ test('entities', () => {
 		bContentType: 'text/plain',
 	};
 	const entities = PostHelper.entities(post);
-
 	expect(entities).toMatchInlineSnapshot(`
 		Object {
 		  "branchTransaction": "ef1ae682c36b0f17ea9f83648a3dca39138d2b8661c28dec221d1170fb185128",
@@ -148,6 +150,15 @@ test('entities', () => {
 		    "pay": Object {
 		      "amount": "1",
 		      "command": "pay",
+		      "match": Array [
+		        "/pay @1 $1",
+		        "pay",
+		        " @1",
+		        " @1",
+		        "1",
+		        "1",
+		        undefined,
+		      ],
 		      "userIds": Array [
 		        "1",
 		      ],
