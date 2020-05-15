@@ -228,14 +228,19 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		const match = description.match(regex.TROLL_TOLL_REGEX);
+		let match = description.match(regex.TROLL_TOLL_REGEX);
 
-		if (!match) {
-			return;
+		if (match) {
+			const [r, command, action, userId, x, amount] = match;
+			return { command: command.toLowerCase(), action, userId, amount, match };
 		}
 
-		const [r, command, action, userId, x, amount] = match;
-		return { command: command.toLowerCase(), action, userId, amount, match };
+		match = description.match(regex.TROLL_TOLL_DEFAULT_REGEX);
+
+		if (match) {
+			const [r, command, userId, x, amount] = match;
+			return { command: command.toLowerCase(), action: 'add', userId, amount, match };
+		}
 	}
 
 	static estimate(post) {

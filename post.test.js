@@ -106,7 +106,16 @@ test('/pay command multi', () => {
 	expect(payCommand.userIds).toStrictEqual(['1', '2', '3']);
 });
 
-test('/trolltoll fake command', () => {
+test('/trolltoll command', () => {
+	const post = { bContent: '/trolltoll @1 $1.25\n  ', bContentType: 'text/plain' };
+	const command = PostHelper.trollTollCommand(post);
+	expect(command.command).toBe('trolltoll');
+	expect(command.action).toBe('add');
+	expect(command.userId).toBe('1');
+	expect(command.amount).toBe('1.25');
+});
+
+test('/trolltoll remove extra text', () => {
 	const post = { bContent: '/trolltoll set @1 $1.25 hello world', bContentType: 'text/plain' };
 	const command = PostHelper.trollTollCommand(post);
 	const displayDescription = PostHelper.displayDescription(post);
@@ -118,10 +127,10 @@ test('/trolltoll fake command', () => {
 });
 
 test('/trolltoll set command', () => {
-	const post = { bContent: '/trolltoll set @1 $1.25\n  ', bContentType: 'text/plain' };
+	const post = { bContent: '/trolltoll add @1 $1.25\n  ', bContentType: 'text/plain' };
 	const command = PostHelper.trollTollCommand(post);
 	expect(command.command).toBe('trolltoll');
-	expect(command.action).toBe('set');
+	expect(command.action).toBe('add');
 	expect(command.userId).toBe('1');
 	expect(command.amount).toBe('1.25');
 });
