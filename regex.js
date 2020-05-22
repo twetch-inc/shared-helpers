@@ -2,7 +2,7 @@ const BITCOIN_FILES_REGEX = /http(s)?:\/\/(.*\.)?media\.bitcoinfiles\.org\/([A-z
 const HASHTAG_REGEX = /(#bitcoin)/gi;
 const MENTION_REGEX = /(@[0-9]+)/g;
 const MULTI_PAY_REGEX = /\/(pay)(( @([0-9]+))+) \$([0-9]+(.[0-9]+)?)/;
-const MULTIPLE_SPACES_REGEX = /\s+/g;
+const MULTIPLE_SPACES_REGEX = /[^\S\r\n]+/g;
 const PAY_REGEX = /\/(pay) @([0-9]+) \$([0-9]+(.[0-9]+)?)/m;
 const POST_NEWLINE_REGEX = /\n{3,}/g;
 const SOUNDCLOUD_REGEX = /http(s)?:\/\/(.*\.)?soundcloud\.com\/[A-z0-9_/?=-]+/;
