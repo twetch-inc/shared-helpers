@@ -14,7 +14,7 @@ class ExchangeRate {
 	}
 
 	async fetch() {
-		const response = await axios.get('https://wallet-api.twetch.app/api/exchange-rate');
+		const response = await axios.get('https://cloud-functions.twetch.app/api/exchange-rate');
 		this.price = parseFloat(response.data.price);
 	}
 }
