@@ -30,8 +30,9 @@ class PostHelper {
 			elements: this.elements(displayDescription),
 			commands: {
 				pay: this.payCommand(description, options),
-				trollToll: this.trollTollCommand(description, options),
-			},
+				poll: this.pollCommand(description, options),
+				trollToll: this.trollTollCommand(description, options)
+			}
 		};
 	}
 
@@ -40,12 +41,12 @@ class PostHelper {
 
 		return descriptionParts
 			.filter((e, i) => e || descriptionParts[i + 1])
-			.map((v) =>
+			.map(v =>
 				v
 					.split(regex.MENTION_REGEX)
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
-					.filter((e) => e)
-					.map((e) => {
+					.filter(e => e)
+					.map(e => {
 						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: `${e} 🐉` };
 						}
@@ -91,6 +92,7 @@ class PostHelper {
 		description = description.replace(regex.BITCOIN_FILES_REGEX, '');
 		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
+		description = description.replace(regex.POLL_COMMAND, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 		description = description.trim();
 
@@ -206,7 +208,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map(e => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
@@ -242,6 +244,28 @@ class PostHelper {
 			const [r, command, userId, x, amount] = match;
 			return { command: command.toLowerCase(), action: 'add', userId, amount, match };
 		}
+	}
+
+	static pollCommand(description, options = {}) {
+		if (typeof description === 'object') {
+			description = this.description(description, options);
+		}
+
+		const match = description.match(regex.POLL_COMMAND);
+
+		if (!match) {
+			return;
+		}
+
+		const [r, command, options] = match;
+
+		return {
+			options: options
+				.split(',')
+				.map(e => e.trim())
+				.filter(e => e),
+			command: options.toLowerCase()
+		};
 	}
 
 	static estimate(post) {

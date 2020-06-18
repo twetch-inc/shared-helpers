@@ -5,6 +5,7 @@ const MULTI_PAY_REGEX = /\/(pay)(( @([0-9]+))+) \$([0-9]+(.[0-9]+)?)/;
 const MULTIPLE_SPACES_REGEX = /[^\S\r\n]+/g;
 const PAY_REGEX = /\/(pay) @([0-9]+) \$([0-9]+(.[0-9]+)?)/m;
 const POST_NEWLINE_REGEX = /\n{3,}/g;
+const POLL_REGEX = /\/(poll) \[(.*?)\]/g;
 const SOUNDCLOUD_REGEX = /http(s)?:\/\/(.*\.)?soundcloud\.com\/[A-z0-9_/?=-]+/;
 const STREAMANITY_REGEX = /http(s)?:\/\/(.*\.)?streamanity\.com\/video\/([A-z0-9_/?=]+)/;
 const TROLL_TOLL_REGEX = /\/(trolltoll) (set|add|remove) @([0-9]+)( \$([0-9]+(.[0-9]+)?))?/im;
@@ -30,6 +31,7 @@ const options = {
 	MULTIPLE_SPACES_REGEX,
 	PAY_REGEX,
 	POST_NEWLINE_REGEX,
+	POLL_REGEX,
 	SOUNDCLOUD_REGEX,
 	STREAMANITY_REGEX,
 	TROLL_TOLL_REGEX,
@@ -38,7 +40,7 @@ const options = {
 	TWETCH_REPLY_REGEX,
 	TWITTER_REGEX,
 	VIZ_REGEX,
-	YOUTUBE_REGEX,
+	YOUTUBE_REGEX
 };
 
 module.exports = {

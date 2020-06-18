@@ -145,96 +145,10 @@ test('/trolltoll remove command', () => {
 	expect(command.amount).toBe(undefined);
 });
 
-test('entities', () => {
-	const post = {
-		bContent:
-			'/pay @1 $1 \n #bitcoin https://twetch.app/t/ef1ae682c36b0f17ea9f83648a3dca39138d2b8661c28dec221d1170fb185128 https://media.bitcoinfiles.org/3b4dc31bf9d7f2b6f5cf5fdad5178e53bf4fb10d74be4143f7ba72dbba07c34c https://www.youtube.com/watch?v=kWI3uWl32y8&t=1s',
-		bContentType: 'text/plain',
-	};
-	const entities = PostHelper.entities(post);
-	expect(entities).toMatchInlineSnapshot(`
-		Object {
-		  "branchTransaction": "ef1ae682c36b0f17ea9f83648a3dca39138d2b8661c28dec221d1170fb185128",
-		  "commands": Object {
-		    "pay": Object {
-		      "amount": "1",
-		      "command": "pay",
-		      "match": Array [
-		        "/pay @1 $1",
-		        "pay",
-		        " @1",
-		        " @1",
-		        "1",
-		        "1",
-		        undefined,
-		      ],
-		      "userIds": Array [
-		        "1",
-		      ],
-		    },
-		    "trollToll": undefined,
-		  },
-		  "contentType": "text/plain",
-		  "description": "/pay @1 $1 
-		 #bitcoin https://twetch.app/t/ef1ae682c36b0f17ea9f83648a3dca39138d2b8661c28dec221d1170fb185128 https://media.bitcoinfiles.org/3b4dc31bf9d7f2b6f5cf5fdad5178e53bf4fb10d74be4143f7ba72dbba07c34c https://www.youtube.com/watch?v=kWI3uWl32y8&t=1s",
-		  "displayDescription": "/pay @1 $1 
-		 #bitcoin   https://www.youtube.com/watch?v=kWI3uWl32y8&t=1s",
-		  "elements": Array [
-		    Array [
-		      Object {
-		        "type": "text",
-		        "value": "/pay ",
-		      },
-		      Object {
-		        "type": "mention",
-		        "userId": "1",
-		        "value": "@1",
-		      },
-		      Object {
-		        "type": "text",
-		        "value": " $1 ",
-		      },
-		    ],
-		    Array [
-		      Object {
-		        "type": "text",
-		        "value": " ",
-		      },
-		      Object {
-		        "type": "hashtag",
-		        "value": "#bitcoin 🐉",
-		      },
-		      Object {
-		        "type": "text",
-		        "value": "   https://www.youtube.com/watch?v=kWI3uWl32y8&t=1s",
-		      },
-		    ],
-		  ],
-		  "embeds": Object {
-		    "bitcoinfiles": Array [
-		      "https://media.bitcoinfiles.org/3b4dc31bf9d7f2b6f5cf5fdad5178e53bf4fb10d74be4143f7ba72dbba07c34c",
-		      "s",
-		      undefined,
-		      "3b4dc31bf9d7f2b6f5cf5fdad5178e53bf4fb10d74be4143f7ba72dbba07c34c",
-		    ],
-		    "soundcloud": null,
-		    "viz": null,
-		    "youtube": Array [
-		      "https://www.youtube.com/watch?v=kWI3uWl32y8",
-		      "kWI3uWl32y8",
-		      undefined,
-		      undefined,
-		    ],
-		  },
-		  "estimateCost": 1.035,
-		  "isBranch": false,
-		  "isMedia": false,
-		  "isQuote": true,
-		  "mediaType": undefined,
-		  "mentions": Array [
-		    "1",
-		  ],
-		  "type": "quote",
-		}
-	`);
+test('/poll command', () => {
+	const post = { bContent: '/poll [1,one,juan]', bContentType: 'text/plain' };
+	const command = PostHelper.pollCommand(post);
+
+	expect(command.command).toBe('poll');
+	expect(command.options).toBe(['1', 'one', 'juan']);
 });
