@@ -150,5 +150,5 @@ test('/poll command', () => {
 	const command = PostHelper.pollCommand(post);
 
 	expect(command.command).toBe('poll');
-	expect(command.options).toBe(['1', 'one', 'juan']);
+	expect(command.choices).toStrictEqual(['1', 'one', 'juan']);
 });

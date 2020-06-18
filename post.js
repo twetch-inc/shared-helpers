@@ -251,20 +251,20 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		const match = description.match(regex.POLL_COMMAND);
+		const match = description.match(regex.POLL_REGEX);
 
 		if (!match) {
 			return;
 		}
 
-		const [r, command, options] = match;
+		const [r, command, choices] = match;
 
 		return {
-			options: options
+			choices: choices
 				.split(',')
 				.map(e => e.trim())
 				.filter(e => e),
-			command: options.toLowerCase()
+			command: command.toLowerCase()
 		};
 	}
 
