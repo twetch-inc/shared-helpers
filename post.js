@@ -25,6 +25,7 @@ class PostHelper {
 				viz: description.match(regex.VIZ_REGEX),
 				youtube: description.match(regex.YOUTUBE_REGEX),
 				bitcoinfiles: description.match(regex.BITCOIN_FILES_REGEX),
+				streamanity: description.match(regex.STREAMANITY_REGEX)
 			},
 			elements: this.elements(displayDescription),
 			commands: {
