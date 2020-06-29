@@ -263,7 +263,7 @@ class PostHelper {
 			choices: choices
 				.split(',')
 				.map(e => e.trim())
-				.filter(e => e),
+				.filter(e => e).slice(0, 5),
 			command: command.toLowerCase()
 		};
 	}
