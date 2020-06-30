@@ -2,6 +2,7 @@ const BITCOIN_FILES_REGEX = /http(s)?:\/\/(.*\.)?media\.bitcoinfiles\.org\/([A-z
 const HASHTAG_REGEX = /(#bitcoin)/gi;
 const MENTION_REGEX = /(@[0-9]+)/g;
 const MULTI_PAY_REGEX = /\/(pay)(( @([0-9]+))+) \$([0-9]+(.[0-9]+)?)/;
+const MULTI_PAY_BSV_REGEX = /\/(pay)(( @([0-9]+))+) ([0-9]+(.[0-9]+)?)(\ ?)(bsv|BSV)/;
 const MULTIPLE_SPACES_REGEX = /[^\S\r\n]+/g;
 const PAY_REGEX = /\/(pay) @([0-9]+) \$([0-9]+(.[0-9]+)?)/m;
 const POST_NEWLINE_REGEX = /\n{3,}/g;
@@ -28,6 +29,7 @@ const options = {
 	HASHTAG_REGEX,
 	MENTION_REGEX,
 	MULTI_PAY_REGEX,
+	MULTI_PAY_BSV_REGEX,
 	MULTIPLE_SPACES_REGEX,
 	PAY_REGEX,
 	POST_NEWLINE_REGEX,

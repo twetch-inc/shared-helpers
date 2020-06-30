@@ -95,6 +95,27 @@ test('/pay command', () => {
 	expect(payCommand.command).toBe('pay');
 	expect(payCommand.amount).toBe('1');
 	expect(payCommand.userIds).toStrictEqual(['1']);
+	expect(payCommand.currency).toBe('USD');
+});
+
+test('/pay command - BSV', () => {
+	const post = { bContent: '/pay @1 100 BSV', bContentType: 'text/plain' };
+	const payCommand = PostHelper.payCommand(post);
+
+	expect(payCommand.command).toBe('pay');
+	expect(payCommand.amount).toBe('100');
+	expect(payCommand.userIds).toStrictEqual(['1']);
+	expect(payCommand.currency).toBe('BSV');
+});
+
+test('/pay command - BSV decimal', () => {
+	const post = { bContent: '/pay @1 0.01 BSV', bContentType: 'text/plain' };
+	const payCommand = PostHelper.payCommand(post);
+
+	expect(payCommand.command).toBe('pay');
+	expect(payCommand.amount).toBe('0.01');
+	expect(payCommand.userIds).toStrictEqual(['1']);
+	expect(payCommand.currency).toBe('BSV');
 });
 
 test('/pay command multi', () => {

@@ -216,14 +216,19 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		const match = description.match(regex.MULTI_PAY_REGEX);
+		let match = description.match(regex.MULTI_PAY_REGEX);
 
-		if (!match) {
-			return;
+		if (match) {
+			const [r, command, mentions, x, y, amount] = match;
+			return { command, userIds: this.mentions(mentions), amount, match, currency: 'USD' };
 		}
 
-		const [r, command, mentions, x, y, amount] = match;
-		return { command, userIds: this.mentions(mentions), amount, match };
+		match = description.match(regex.MULTI_PAY_BSV_REGEX);
+
+		if (match) {
+			const [r, command, mentions, x, y, amount] = match;
+			return { command, userIds: this.mentions(mentions), amount, match, currency: 'BSV' };
+		}
 	}
 
 	static trollTollCommand(description, options = {}) {
