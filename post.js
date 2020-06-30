@@ -1,6 +1,7 @@
 const _get = require('lodash/get');
 const _uniq = require('lodash/uniq');
 const regex = require('./regex');
+const exchangeRate = require('./exchange-rate');
 
 class PostHelper {
 	static entities(post, options = { underscore: false }) {
@@ -268,7 +269,8 @@ class PostHelper {
 			choices: choices
 				.split(',')
 				.map(e => e.trim())
-				.filter(e => e).slice(0, 5),
+				.filter(e => e)
+				.slice(0, 5),
 			command: command.toLowerCase()
 		};
 	}
@@ -292,7 +294,13 @@ class PostHelper {
 		}
 
 		if (payCommand) {
-			value += parseFloat(payCommand.amount);
+			if (payCommand.currency === 'USD') {
+				value += parseFloat(payCommand.amount);
+			}
+
+			if (payCommand.currency === 'BSV') {
+				value += parseFloat(payCommand.amount * exchangeRate.price);
+			}
 		}
 
 		return value;
