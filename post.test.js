@@ -173,3 +173,19 @@ test('/poll command', () => {
 	expect(command.command).toBe('poll');
 	expect(command.choices).toStrictEqual(['1', 'one', 'juan']);
 });
+
+test('bitcoinfiles preview', () => {
+	const hash = 'ced6ebb54f1b49577b855d117e1ed89473f9cb71341f66daaeee47c9c78ac3e7';
+	const post = { bContent: `https://bitcoinfiles.org/t/${hash}`, bContentType: 'text/plain' };
+	const entities = PostHelper.entities(post);
+
+	expect(entities.embeds.bitcoinfiles[3]).toBe(hash);
+});
+
+test('bitcoinfiles', () => {
+	const hash = 'ced6ebb54f1b49577b855d117e1ed89473f9cb71341f66daaeee47c9c78ac3e7';
+	const post = { bContent: `https://media.bitcoinfiles.org/${hash}`, bContentType: 'text/plain' };
+	const entities = PostHelper.entities(post);
+
+	expect(entities.embeds.bitcoinfiles[3]).toBe(hash);
+});

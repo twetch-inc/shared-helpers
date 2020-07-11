@@ -1,4 +1,5 @@
 const BITCOIN_FILES_REGEX = /http(s)?:\/\/(.*\.)?media\.bitcoinfiles\.org\/([A-z0-9]+)/;
+const BITCOIN_FILES_PREVIEW_REGEX = /http(s)?:\/\/(.*\.)?bitcoinfiles\.org\/t\/([A-z0-9_\/?=]+)/;
 const HASHTAG_REGEX = /(#bitcoin)/gi;
 const MENTION_REGEX = /(@[0-9]+)/g;
 const MULTI_PAY_REGEX = /\/(pay)(( @([0-9]+))+) \$([0-9]+(.[0-9]+)?)/;
@@ -26,6 +27,7 @@ const match = (value, option) => {
 
 const options = {
 	BITCOIN_FILES_REGEX,
+	BITCOIN_FILES_PREVIEW_REGEX,
 	HASHTAG_REGEX,
 	MENTION_REGEX,
 	MULTI_PAY_REGEX,
