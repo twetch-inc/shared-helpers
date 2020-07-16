@@ -151,7 +151,7 @@ class PostHelper {
 			return false;
 		}
 
-		description = description.replace(regex.WETCH_REPLY_REGEX, '');
+		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.trim();
 
@@ -220,19 +220,64 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		let match = description.match(regex.MULTI_PAY_REGEX);
-
-		if (match) {
-			const [r, command, mentions, x, y, amount] = match;
-			return { command, userIds: this.mentions(mentions), amount, match, currency: 'USD' };
+		let match = description.match(regex.PAY_ANY);
+		if(!match){
+			return;
 		}
 
-		match = description.match(regex.MULTI_PAY_BSV_REGEX);
+		//Remove /pay from string
+		let m = match[0].replace('/pay', '').trim();
+		//Get index of last currency to avoid HandCash handle clash
+		const i = [...m.matchAll(regex.PAY_ANY_CURRENCY)].pop().index;
+		//Get currency string
+		let payment = m.substring(i);
+		//Get payees
+		const payees = m.substring(0, i).trim().split(" ");
+		//Set currency
+		let { currency, amount } = this.getAmount(payment);
+		
+		//Define payOut object
+		let userIds = [];
+		let addresses = [];
+		let paymails = [];
+		 
+		 //Set payees
+		 payees.map(p => {
+			if(p.match(regex.MENTION_REGEX)){
+				userIds.push(p.substring(1));
+			} else if(p.match(regex.PAY_ANY_P2PKH)){
+				addresses.push(p);
+			} else if(p.match(regex.PAY_ANY_PAYMAIL)) {
+				paymails.push(p);
+			} else if(p.match(regex.PAY_ANY_HANDCASH_HANDLE)){
+				paymails.push(p.substring(1)+"@handcash.io");
+			} else if(p.match(regex.PAY_ANY_RELAY_HANDLE)) {
+				paymails.push(p+"@relayx.io");
+			} else {
+				return;
+			}
+		});
+		console.log(userIds, paymails, addresses, amount, match, currency);
+		return { command: "/pay", userIds, paymails, addresses, amount, match, currency };
 
-		if (match) {
-			const [r, command, mentions, x, y, amount] = match;
-			return { command, userIds: this.mentions(mentions), amount, match, currency: 'BSV' };
+	}
+
+	static getAmount(s) {
+		let currency, amount;
+		if (s.match(regex.PAY_ANY_CURRENCY_BSV)){
+			currency = 'BSV';
+			amount = s.replace(/bsv/,'').trim();
+		} else if (s.match(regex.PAY_ANY_CURRENCY_USD)){
+			currency = 'USD';
+			amount = s.replace("$",'').trim();
+		} else {
+		  throw(new Error("Invalid currency or amount"));
 		}
+		console.log(amount);
+		if((1*amount)<=0){
+			return;
+		}
+		return { currency, amount }
 	}
 
 	static trollTollCommand(description, options = {}) {
