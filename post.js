@@ -257,7 +257,6 @@ class PostHelper {
 				return;
 			}
 		});
-		console.log(userIds, paymails, addresses, amount, match, currency);
 		return { command: "pay", userIds, paymails, addresses, amount, match, currency };
 
 	}
@@ -273,7 +272,6 @@ class PostHelper {
 		} else {
 		  throw(new Error("Invalid currency or amount"));
 		}
-		console.log(amount);
 		if((1*amount)<=0){
 			return;
 		}
