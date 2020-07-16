@@ -17,7 +17,7 @@ const TWETCH_REPLY_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/[A-z0-9_/?=]+#([
 const TWITTER_REGEX = /http(s)?:\/\/(.*\.)?twitter\.com\/[A-z0-9_/?=]+/;
 const VIZ_REGEX = /http(s)?:\/\/(.*\.)?viz\.cash\/v\/([A-z0-9]+)/;
 //PAY_TO_ANY
-const PAY_ANY = /^(\/[pP][aA][yY])\s+((\@\d+\s+)|([a-zA-Z\-\_\d]+@[a-zA-Z\-\_\d\.]+[a-zA-Z\d]\s+)|([1][a-km-zA-HJ-NP-Z\d]{25,34}\s+)|([$][a-zA-Z\d-_.]{4,50}\s+)|([1][a-zA-Z\d]+\s+))+(((((\d{1,8})?(\.\d{1,8}))|((\d{1,8})(\.\d{1,8})?))\s*([bB][sS][vV]))|([$][\d]+(\.[\d]+)?))/g;
+const PAY_ANY = /(\/[pP][aA][yY])\s+((\@\d+\s+)|([a-zA-Z\-\_\d]+@[a-zA-Z\-\_\d\.]+[a-zA-Z\d]\s+)|([1][a-km-zA-HJ-NP-Z\d]{25,34}\s+)|([$][a-zA-Z\d-_.]{4,50}\s+)|([1][a-zA-Z\d]+\s+))+(((((\d{1,8})?(\.\d{1,8}))|((\d{1,8})(\.\d{1,8})?))\s*([bB][sS][vV]))|([$][\d]+(\.[\d]+)?))/g;
 const PAY_ANY_PAYMAIL = /^[a-zA-Z\-\_\d]+@[a-zA-Z\-\_\d\.]+[a-zA-Z\d]/;
 const PAY_ANY_RELAY_HANDLE = /^[1][a-z0-9]+/i;
 const PAY_ANY_HANDCASH_HANDLE = /^[$][a-zA-Z\d-_.]{4,50}/;
