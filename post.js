@@ -258,7 +258,7 @@ class PostHelper {
 			}
 		});
 		console.log(userIds, paymails, addresses, amount, match, currency);
-		return { command: "/pay", userIds, paymails, addresses, amount, match, currency };
+		return { command: "pay", userIds, paymails, addresses, amount, match, currency };
 
 	}
 
@@ -266,7 +266,7 @@ class PostHelper {
 		let currency, amount;
 		if (s.match(regex.PAY_ANY_CURRENCY_BSV)){
 			currency = 'BSV';
-			amount = s.replace(/bsv/,'').trim();
+			amount = s.replace(/bsv/i,'').trim();
 		} else if (s.match(regex.PAY_ANY_CURRENCY_USD)){
 			currency = 'USD';
 			amount = s.replace("$",'').trim();
