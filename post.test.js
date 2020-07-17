@@ -89,7 +89,7 @@ test('media description', () => {
 });
 
 test('/pay command', () => {
-	const post = { bContent: '/pay @1 $1', bContentType: 'text/plain' };
+	const post = { bContent: 'stuff before /pay @1 $1', bContentType: 'text/plain' };
 	const payCommand = PostHelper.payCommand(post);
 
 	expect(payCommand.command).toBe('pay');
@@ -125,6 +125,24 @@ test('/pay command multi', () => {
 	expect(payCommand.command).toBe('pay');
 	expect(payCommand.amount).toBe('1');
 	expect(payCommand.userIds).toStrictEqual(['1', '2', '3']);
+});
+
+test('/pay command multi', () => {
+	const post = {
+		bContent: '\n\n yo yo yo /pay @40 deanlittle@moneybutton.com 1deanlittle $harry 1FnZChq5ArfMTMEgGTX8q2nNANMmmZZT1B $1',
+		bContentType: 'text/plain',
+	};
+	const payCommand = PostHelper.payCommand(post);
+
+	expect(payCommand.command).toBe('pay');
+	expect(payCommand.amount).toBe('1');
+	expect(payCommand.userIds).toStrictEqual(['40']);
+	expect(payCommand.paymails).toStrictEqual([
+		'deanlittle@moneybutton.com',
+		'1deanlittle@relayx.io',
+		'harry@handcash.io',
+	]);
+	expect(payCommand.addresses).toStrictEqual(['1FnZChq5ArfMTMEgGTX8q2nNANMmmZZT1B']);
 });
 
 test('/trolltoll command', () => {
