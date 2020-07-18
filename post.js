@@ -280,6 +280,7 @@ class PostHelper {
 	
 	static matchAll(r, s) {
 		let matches = [];
+		let match;
 		while ((match = r.exec(s)) !== null) {
 			matches.push(match);
 		}
