@@ -228,7 +228,7 @@ class PostHelper {
 		//Remove /pay from string
 		let m = match[0].replace('/pay', '').trim();
 		//Get index of last currency to avoid HandCash handle clash
-		const i = [...m.matchAll(regex.PAY_ANY_CURRENCY)].pop().index;
+		const i = [...this.matchAll(regex.PAY_ANY_CURRENCY, m)].pop().index;
 		//Get currency string
 		let payment = m.substring(i);
 		//Get payees
@@ -276,6 +276,14 @@ class PostHelper {
 			return;
 		}
 		return { currency, amount }
+	}
+	
+	static matchAll(r, s) {
+		let matches = [];
+		while ((match = r.exec(s)) !== null) {
+			matches.push(match);
+		}
+		return matches;
 	}
 
 	static trollTollCommand(description, options = {}) {
