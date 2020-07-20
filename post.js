@@ -81,6 +81,7 @@ class PostHelper {
 
 	static displayDescription(post, options = {}) {
 		let description = this.description(post);
+		const isMedia = this.isMedia(post);
 
 		if (!description) {
 			return '';
@@ -98,6 +99,11 @@ class PostHelper {
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
+
+		if (!isMedia) {
+			description = description.replace(regex.TWITTER_REGEX, '');
+		}
+
 		description = description.trim();
 
 		return description;
@@ -221,7 +227,7 @@ class PostHelper {
 		}
 
 		let match = description.match(regex.PAY_ANY);
-		if(!match){
+		if (!match) {
 			return;
 		}
 
@@ -232,52 +238,51 @@ class PostHelper {
 		//Get currency string
 		let payment = m.substring(i);
 		//Get payees
-		const payees = m.substring(0, i).trim().split(" ");
+		const payees = m.substring(0, i).trim().split(' ');
 		//Set currency
 		let { currency, amount } = this.getAmount(payment);
-		
+
 		//Define payOut object
 		let userIds = [];
 		let addresses = [];
 		let paymails = [];
-		 
-		 //Set payees
-		 payees.map(p => {
-			if(p.match(regex.MENTION_REGEX)){
+
+		//Set payees
+		payees.map((p) => {
+			if (p.match(regex.MENTION_REGEX)) {
 				userIds.push(p.substring(1));
-			} else if(p.match(regex.PAY_ANY_P2PKH)){
+			} else if (p.match(regex.PAY_ANY_P2PKH)) {
 				addresses.push(p);
-			} else if(p.match(regex.PAY_ANY_PAYMAIL)) {
+			} else if (p.match(regex.PAY_ANY_PAYMAIL)) {
 				paymails.push(p);
-			} else if(p.match(regex.PAY_ANY_HANDCASH_HANDLE)){
-				paymails.push(p.substring(1)+"@handcash.io");
-			} else if(p.match(regex.PAY_ANY_RELAY_HANDLE)) {
-				paymails.push(p+"@relayx.io");
+			} else if (p.match(regex.PAY_ANY_HANDCASH_HANDLE)) {
+				paymails.push(p.substring(1) + '@handcash.io');
+			} else if (p.match(regex.PAY_ANY_RELAY_HANDLE)) {
+				paymails.push(p + '@relayx.io');
 			} else {
 				return;
 			}
 		});
-		return { command: "pay", userIds, paymails, addresses, amount, match, currency };
-
+		return { command: 'pay', userIds, paymails, addresses, amount, match, currency };
 	}
 
 	static getAmount(s) {
 		let currency, amount;
-		if (s.match(regex.PAY_ANY_CURRENCY_BSV)){
+		if (s.match(regex.PAY_ANY_CURRENCY_BSV)) {
 			currency = 'BSV';
-			amount = s.replace(/bsv/i,'').trim();
-		} else if (s.match(regex.PAY_ANY_CURRENCY_USD)){
+			amount = s.replace(/bsv/i, '').trim();
+		} else if (s.match(regex.PAY_ANY_CURRENCY_USD)) {
 			currency = 'USD';
-			amount = s.replace("$",'').trim();
+			amount = s.replace('$', '').trim();
 		} else {
-		  throw(new Error("Invalid currency or amount"));
+			throw new Error('Invalid currency or amount');
 		}
-		if((1*amount)<=0){
+		if (1 * amount <= 0) {
 			return;
 		}
-		return { currency, amount }
+		return { currency, amount };
 	}
-	
+
 	static matchAll(r, s) {
 		let matches = [];
 		let match;
