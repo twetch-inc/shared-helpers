@@ -5,38 +5,42 @@ const exchangeRate = require('./exchange-rate');
 
 class PostHelper {
 	static entities(post, options = { underscore: false }) {
-		const description = this.description(post, options);
-		const contentType = this.contentType(post, options);
-		const displayDescription = this.displayDescription(post);
+		try {
+			const description = this.description(post, options);
+			const contentType = this.contentType(post, options);
+			const displayDescription = this.displayDescription(post);
 
-		return {
-			branchTransaction: this.branchTransaction(description, options),
-			contentType,
-			description,
-			displayDescription,
-			estimateCost: this.estimate(post),
-			isBranch: this.isBranch(post, options),
-			isMedia: this.isMedia(contentType),
-			isQuote: this.isQuote(post, options),
-			mediaType: this.mediaType(contentType),
-			mentions: this.mentions(description, options),
-			type: this.type(post, options),
-			embeds: {
-				soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
-				viz: description.match(regex.VIZ_REGEX),
-				youtube: description.match(regex.YOUTUBE_REGEX),
-				bitcoinfiles:
-					description.match(regex.BITCOIN_FILES_REGEX) ||
-					description.match(regex.BITCOIN_FILES_PREVIEW_REGEX),
-				streamanity: description.match(regex.STREAMANITY_REGEX),
-			},
-			elements: this.elements(displayDescription),
-			commands: {
-				pay: this.payCommand(description, options),
-				poll: this.pollCommand(description, options),
-				trollToll: this.trollTollCommand(description, options),
-			},
-		};
+			return {
+				branchTransaction: this.branchTransaction(description, options),
+				contentType,
+				description,
+				displayDescription,
+				estimateCost: this.estimate(post),
+				isBranch: this.isBranch(post, options),
+				isMedia: this.isMedia(contentType),
+				isQuote: this.isQuote(post, options),
+				mediaType: this.mediaType(contentType),
+				mentions: this.mentions(description, options),
+				type: this.type(post, options),
+				embeds: {
+					soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
+					viz: description.match(regex.VIZ_REGEX),
+					youtube: description.match(regex.YOUTUBE_REGEX),
+					bitcoinfiles:
+						description.match(regex.BITCOIN_FILES_REGEX) ||
+						description.match(regex.BITCOIN_FILES_PREVIEW_REGEX),
+					streamanity: description.match(regex.STREAMANITY_REGEX)
+				},
+				elements: this.elements(displayDescription),
+				commands: {
+					pay: this.payCommand(description, options),
+					poll: this.pollCommand(description, options),
+					trollToll: this.trollTollCommand(description, options)
+				}
+			};
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	static elements(description) {
@@ -44,12 +48,12 @@ class PostHelper {
 
 		return descriptionParts
 			.filter((e, i) => e || descriptionParts[i + 1])
-			.map((v) =>
+			.map(v =>
 				v
 					.split(regex.MENTION_REGEX)
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
-					.filter((e) => e)
-					.map((e) => {
+					.filter(e => e)
+					.map(e => {
 						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: `${e} 🐉` };
 						}
@@ -218,7 +222,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map(e => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
@@ -238,7 +242,10 @@ class PostHelper {
 		//Get currency string
 		let payment = m.substring(i);
 		//Get payees
-		const payees = m.substring(0, i).trim().split(' ');
+		const payees = m
+			.substring(0, i)
+			.trim()
+			.split(' ');
 		//Set currency
 		let { currency, amount } = this.getAmount(payment);
 
@@ -248,7 +255,7 @@ class PostHelper {
 		let paymails = [];
 
 		//Set payees
-		payees.map((p) => {
+		payees.map(p => {
 			if (p.match(regex.MENTION_REGEX)) {
 				userIds.push(p.substring(1));
 			} else if (p.match(regex.PAY_ANY_P2PKH)) {
@@ -328,10 +335,10 @@ class PostHelper {
 		return {
 			choices: choices
 				.split(',')
-				.map((e) => e.trim())
-				.filter((e) => e)
+				.map(e => e.trim())
+				.filter(e => e)
 				.slice(0, 5),
-			command: command.toLowerCase(),
+			command: command.toLowerCase()
 		};
 	}
 
