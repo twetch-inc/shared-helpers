@@ -104,7 +104,7 @@ class PostHelper {
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 
-		if (!isMedia) {
+		if (post.mapTwdata) {
 			description = description.replace(regex.TWITTER_REGEX, '');
 		}
 
