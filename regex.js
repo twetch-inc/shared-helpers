@@ -9,7 +9,7 @@ const PAY_REGEX = /\/(pay) @([0-9]+) \$([0-9]+(.[0-9]+)?)/m;
 const POST_NEWLINE_REGEX = /\n{3,}/g;
 const POLL_REGEX = /\/(poll) \[(.*?)\]/;
 const SOUNDCLOUD_REGEX = /http(s)?:\/\/(.*\.)?soundcloud\.com\/[A-z0-9_/?=-]+/;
-const STREAMANITY_REGEX = /http(s)?:\/\/(.*\.)?streamanity\.com\/video\/([A-z0-9_/?=]+)/;
+const STREAMANITY_REGEX = /http(s)?:\/\/(.*\.)?streamanity\.com\/video\/([A-z0-9]+(\?ref=([A-z0-9-])+)?)/;
 const TROLL_TOLL_REGEX = /\/(trolltoll) (set|add|remove) @([0-9]+)( \$([0-9]+(.[0-9]+)?))?/im;
 const TROLL_TOLL_DEFAULT_REGEX = /\/(trolltoll) @([0-9]+)( \$([0-9]+(.[0-9]+)?))?/im;
 const TWETCH_POST_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/([A-z0-9_/?=]+)/;
