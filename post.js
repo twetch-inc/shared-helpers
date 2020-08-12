@@ -11,6 +11,7 @@ class PostHelper {
 			const displayDescription = this.displayDescription(post);
 
 			return {
+				...post,
 				branchTransaction: this.branchTransaction(description, options),
 				contentType,
 				description,
