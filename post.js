@@ -9,11 +9,11 @@ const linkify = new LinkifyIt();
 linkify.tlds(tlds);
 
 class PostHelper {
-	static entities(post, options = { underscore: false }) {
+	static entities(post, options = { underscore: false, unfurl: false }) {
 		try {
 			const description = this.description(post, options);
 			const contentType = this.contentType(post, options);
-			const displayDescription = this.displayDescription(post);
+			const displayDescription = this.displayDescription(post, options);
 
 			return {
 				...post,
@@ -30,7 +30,7 @@ class PostHelper {
 				type: this.type(post, options),
 				files: this.files(post, options),
 				embeds: {
-					urls: linkify.match(displayDescription),
+					urls: this.unfurl(post, options),
 					soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
 					viz: description.match(regex.VIZ_REGEX),
 					youtube: description.match(regex.YOUTUBE_REGEX),
@@ -122,9 +122,22 @@ class PostHelper {
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 
+		if (options.unfurl) {
+			description = description.replace(/https?.*?(?= |$)/g, '');
+		}
+
 		description = description.trim();
 
 		return description;
+	}
+
+	static unfurl(post, options = {}) {
+		if (!options.unfurl) {
+			return;
+		}
+
+		const displayDescription = this.displayDescription(post, { unfurl: false });
+		return linkify.match(displayDescription);
 	}
 
 	static contentType(post, options = {}) {
