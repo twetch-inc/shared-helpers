@@ -2,6 +2,11 @@ const _get = require('lodash/get');
 const _uniq = require('lodash/uniq');
 const regex = require('./regex');
 const exchangeRate = require('./exchange-rate');
+const LinkifyIt = require('linkify-it');
+const tlds = require('tlds');
+
+const linkify = new LinkifyIt();
+linkify.tlds(tlds);
 
 class PostHelper {
 	static entities(post, options = { underscore: false }) {
@@ -23,7 +28,9 @@ class PostHelper {
 				mediaType: this.mediaType(contentType),
 				mentions: this.mentions(description, options),
 				type: this.type(post, options),
+				files: this.files(post, options),
 				embeds: {
+					urls: linkify.match(displayDescription),
 					soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
 					viz: description.match(regex.VIZ_REGEX),
 					youtube: description.match(regex.YOUTUBE_REGEX),
@@ -41,6 +48,16 @@ class PostHelper {
 			};
 		} catch (e) {
 			console.log(e);
+		}
+	}
+
+	static files(post) {
+		if (!post.files) {
+			return [];
+		}
+
+		if (typeof post.files === 'string') {
+			return JSON.parse(post.files);
 		}
 	}
 
