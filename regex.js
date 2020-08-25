@@ -27,7 +27,7 @@ const PAY_ANY_CURRENCY = /((((\d{1,8})?\.\d{1,8})|(\d{1,8}(\.\d{1,8})?))\s*[bB][
 const PAY_ANY_CURRENCY_BSV = /(((\d{1,8})?\.\d{1,8})|(\d{1,8}(\.\d{1,8})?))\s*[bB][sS][vV]/g;
 const PAY_ANY_CURRENCY_USD = /([$][\d]*(\.[\d]+)?)/g;
 /* eslint-disable */
-const YOUTUBE_REGEX = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)(?<videoID>[^#&?]*)(?:.*(?>t=(?<start>[0-9]+)).*$)?/;
+const YOUTUBE_REGEX = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)(?<videoID>[^#&?]*)(?:.*(?:t=(?<start>[0-9]+)).*$)?/;
 /* eslint-enable */
 
 const match = (value, option) => {
