@@ -20,4 +20,10 @@ describe('regex', () => {
 		const match = regex.match(`https://bitcoinfiles.org/t/${hash}`, 'BITCOIN_FILES_REGEX');
 		expect(!match).toBe(true);
 	});
+
+	it('match youtube', () => {
+		const match = regex.match(`https://www.youtube.com/watch?v=IpmHQWfhVsY`, 'YOUTUBE_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
 });
