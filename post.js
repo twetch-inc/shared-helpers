@@ -122,10 +122,6 @@ class PostHelper {
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 
-		if (options.unfurl) {
-			description = description.replace(/https?.*?(?= |$)/g, '');
-		}
-
 		description = description.trim();
 
 		return description;
@@ -137,7 +133,11 @@ class PostHelper {
 		}
 
 		const displayDescription = this.displayDescription(post, { unfurl: false });
-		return linkify.match(displayDescription);
+		const match = linkify.match(displayDescription);
+
+		if (match && match.length) {
+			return match.map(e => e.url).filter(e => e.startsWith('https://'));
+		}
 	}
 
 	static contentType(post, options = {}) {
