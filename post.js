@@ -119,6 +119,7 @@ class PostHelper {
 			description = description.replace(regex.BITCOIN_FILES_REGEX, '');
 			description = description.replace(regex.BITCOIN_FILES_PREVIEW_REGEX, '');
 		}
+
 		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.replace(regex.POLL_REGEX, '');
@@ -145,8 +146,16 @@ class PostHelper {
 			return;
 		}
 
-		const displayDescription = this.description(post, { unfurl: true });
-		const match = linkify.match(displayDescription);
+		let description = this.description(post, { unfurl: true });
+
+		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
+		description = description.replace(regex.TWETCH_POST_REGEX, '');
+		description = description.replace(regex.POLL_REGEX, '');
+		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
+
+		description = description.trim();
+
+		const match = linkify.match(description);
 
 		if (match && match.length) {
 			return match.filter(e => e.schema !== 'mailto:').map(e => e.url);
