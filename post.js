@@ -115,14 +115,27 @@ class PostHelper {
 			description = trollTollCommand.match[0];
 		}
 
-		description = description.replace(regex.BITCOIN_FILES_REGEX, '');
-		description = description.replace(regex.BITCOIN_FILES_PREVIEW_REGEX, '');
+		if (!options.unfurl) {
+			description = description.replace(regex.BITCOIN_FILES_REGEX, '');
+			description = description.replace(regex.BITCOIN_FILES_PREVIEW_REGEX, '');
+		}
 		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 
 		description = description.trim();
+
+		if (options.unfurl) {
+			const match = linkify.match(description);
+
+			if (match && match.length) {
+				const urls = match.filter(e => e.schema !== 'mailto:').map(e => e.url);
+				for (let each of urls || []) {
+					description = description.replace(each, '');
+				}
+			}
+		}
 
 		return description;
 	}
@@ -132,11 +145,11 @@ class PostHelper {
 			return;
 		}
 
-		const displayDescription = this.displayDescription(post, { unfurl: false });
+		const displayDescription = this.description(post, { unfurl: true });
 		const match = linkify.match(displayDescription);
 
 		if (match && match.length) {
-			return match.map(e => e.url).filter(e => e.startsWith('https://'));
+			return match.filter(e => e.schema !== 'mailto:').map(e => e.url);
 		}
 	}
 
