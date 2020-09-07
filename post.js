@@ -36,7 +36,7 @@ class PostHelper {
 					youtube: description.match(regex.YOUTUBE_REGEX),
 					bitcoinfiles:
 						description.match(regex.BITCOIN_FILES_REGEX) ||
-						description.match(regex.BITCOIN_FILES_PREVIEW_REGEX),
+						(!options.unfurl && description.match(regex.BITCOIN_FILES_PREVIEW_REGEX)),
 					streamanity: description.match(regex.STREAMANITY_REGEX)
 				},
 				elements: this.elements(displayDescription),
