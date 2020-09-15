@@ -214,7 +214,12 @@ class PostHelper {
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.trim();
 
-		return !description.length && !this.isMedia(post, options) && !post.replyPostId;
+		return (
+			!description.length &&
+			!this.isMedia(post, options) &&
+			!post.replyPostId &&
+			!this.files(post, options).length
+		);
 	}
 
 	static isQuote(post, options = {}) {
