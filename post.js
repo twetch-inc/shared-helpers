@@ -73,7 +73,7 @@ class PostHelper {
 					.filter(e => e)
 					.map(e => {
 						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
-							return { type: 'hashtag', value: `${e} 🐉` };
+							return { type: 'hashtag', value: e };
 						}
 
 						if (e.startsWith('@') && !isNaN(parseInt(e.replace('@', ''), 10))) {
