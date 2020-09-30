@@ -72,7 +72,7 @@ class PostHelper {
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_REGEX)), [])
 					.filter(e => e)
 					.map(e => {
-						if (e.startsWith('#') && e.match(regex.HASHTAG_REGEX)) {
+						if ((e.startsWith('#') || e.startsWith('$')) && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: e };
 						}
 
