@@ -72,7 +72,6 @@ class PostHelper {
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_CONTEXT_REGEX)), [])
 					.filter((e) => e)
 					.map((e) => {
-						console.log({ e });
 						if ((e.startsWith('#') || e.startsWith('$')) && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: e };
 						}
