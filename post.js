@@ -394,8 +394,7 @@ class PostHelper {
 	}
 
 	static estimate(post) {
-		//let value = 0.02;
-		let value = 0.01;
+		let value = 0.02;
 
 		if (post.replyPostId) {
 			value += 0.01;
