@@ -37,14 +37,14 @@ class PostHelper {
 					bitcoinfiles:
 						description.match(regex.BITCOIN_FILES_REGEX) ||
 						(!options.unfurl && description.match(regex.BITCOIN_FILES_PREVIEW_REGEX)),
-					streamanity: description.match(regex.STREAMANITY_REGEX),
+					streamanity: description.match(regex.STREAMANITY_REGEX)
 				},
 				elements: this.elements(displayDescription),
 				commands: {
 					pay: this.payCommand(description, options),
 					poll: this.pollCommand(description, options),
-					trollToll: this.trollTollCommand(description, options),
-				},
+					trollToll: this.trollTollCommand(description, options)
+				}
 			};
 		} catch (e) {
 			console.log(e);
@@ -62,16 +62,16 @@ class PostHelper {
 	}
 
 	static elements(description) {
-		const descriptionParts = description.split('\n');
+		const descriptionParts = description.trim().split('\n');
 
 		return descriptionParts
 			.filter((e, i) => e || descriptionParts[i + 1])
-			.map((v) =>
+			.map(v =>
 				v
 					.split(regex.MENTION_REGEX)
 					.reduce((a, e) => a.concat(e.split(regex.HASHTAG_CONTEXT_REGEX)), [])
-					.filter((e) => e)
-					.map((e) => {
+					.filter(e => e)
+					.map(e => {
 						if ((e.startsWith('#') || e.startsWith('$')) && e.match(regex.HASHTAG_REGEX)) {
 							return { type: 'hashtag', value: e };
 						}
@@ -131,7 +131,7 @@ class PostHelper {
 			const match = linkify.match(description);
 
 			if (match && match.length) {
-				const urls = match.filter((e) => e.schema !== 'mailto:').map((e) => e.url);
+				const urls = match.filter(e => e.schema !== 'mailto:').map(e => e.url);
 				for (let each of urls || []) {
 					description = description.replace(each, '');
 				}
@@ -158,7 +158,7 @@ class PostHelper {
 		const match = linkify.match(description);
 
 		if (match && match.length) {
-			return match.filter((e) => e.schema !== 'mailto:').map((e) => e.url);
+			return match.filter(e => e.schema !== 'mailto:').map(e => e.url);
 		}
 	}
 
@@ -276,7 +276,7 @@ class PostHelper {
 			description = this.description(description, options);
 		}
 
-		return _uniq((description.match(regex.MENTION_REGEX) || []).map((e) => e.replace('@', '')));
+		return _uniq((description.match(regex.MENTION_REGEX) || []).map(e => e.replace('@', '')));
 	}
 
 	static payCommand(description, options = {}) {
@@ -296,7 +296,10 @@ class PostHelper {
 		//Get currency string
 		let payment = m.substring(i);
 		//Get payees
-		const payees = m.substring(0, i).trim().split(' ');
+		const payees = m
+			.substring(0, i)
+			.trim()
+			.split(' ');
 		//Set currency
 		let { currency, amount } = this.getAmount(payment);
 
@@ -306,7 +309,7 @@ class PostHelper {
 		let paymails = [];
 
 		//Set payees
-		payees.map((p) => {
+		payees.map(p => {
 			if (p.match(regex.MENTION_REGEX)) {
 				userIds.push(p.substring(1));
 			} else if (p.match(regex.PAY_ANY_P2PKH)) {
@@ -386,10 +389,10 @@ class PostHelper {
 		return {
 			choices: choices
 				.split(',')
-				.map((e) => e.trim())
-				.filter((e) => e)
+				.map(e => e.trim())
+				.filter(e => e)
 				.slice(0, 5),
-			command: command.toLowerCase(),
+			command: command.toLowerCase()
 		};
 	}
 
