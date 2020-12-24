@@ -26,27 +26,79 @@ describe('regex', () => {
 		console.log({ match });
 		expect(!!match).toBe(true);
 	});
-	it('match hash/cash tags', () => {
-		// In order - No hashtag, Chinese, Hindi, Spanish, French, Russian, German, Japanese, Marathi, Telegu, Punjabi, Tamil, Turkish, Vietnamese, English, English
-		const match = regex.match(`
-			Hello World!
-			#圣诞节快乐
-			$क्रिसमसकीबधाई
-			$café
-			$bonneaprèsmidi
-			#Добрыйдень
-			$Straße
-			$こんにちは
-			$शुभदुपार
-			#శుభమద్యాహ్నం
-			$ਸਤਸ੍ਰੀਅਕਾਲ
-			$மதியவணக்கம்
-			#Tünaydın,
-			$tiếngchào
-			#test
-			$21e8`, 
-		'HASHTAG_REGEX');
-		console.log({ match }, match.length);
+	it('Chinese', () => {
+		const match = regex.match(`#圣诞节快乐`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Hindi', () => {
+		const match = regex.match(`$क्रिसमसकीबधाई`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Spanish', () => {
+		const match = regex.match(`$café`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('French', () => {
+		const match = regex.match(`$bonneaprèsmidi`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Russian', () => {
+		const match = regex.match(`#Добрыйдень`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('German', () => {
+		const match = regex.match(`$Straße`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Japanese', () => {
+		const match = regex.match(`$こんにちは`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Marathi', () => {
+		const match = regex.match(`$शुभदुपार`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Telegu', () => {
+		const match = regex.match(`#శుభమద్యాహ్నం`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Punjabi', () => {
+		const match = regex.match(`$ਸਤਸ੍ਰੀਅਕਾਲ`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Tamil', () => {
+		const match = regex.match(`$மதியவணக்கம்`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Turkish', () => {
+		const match = regex.match(`#Tünaydın`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Vietnamese', () => {
+		const match = regex.match(`$tiếngchào`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('Korean', () => {
+		const match = regex.match(`#좋은아침`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('English', () => {
+		const match = regex.match(`$21e8`,'HASHTAG_REGEX');
+		console.log({ match });
 		expect(!!match).toBe(true);
 	});
 });
