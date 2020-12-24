@@ -26,4 +26,27 @@ describe('regex', () => {
 		console.log({ match });
 		expect(!!match).toBe(true);
 	});
+	it('match hash/cash tags', () => {
+		// In order - No hashtag, Chinese, Hindi, Spanish, French, Russian, German, Japanese, Marathi, Telegu, Punjabi, Tamil, Turkish, Vietnamese, English, English
+		const match = regex.match(`
+			Hello World!
+			#圣诞节快乐
+			$क्रिसमसकीबधाई
+			$café
+			$bonneaprèsmidi
+			#Добрыйдень
+			$Straße
+			$こんにちは
+			$शुभदुपार
+			#శుభమద్యాహ్నం
+			$ਸਤਸ੍ਰੀਅਕਾਲ
+			$மதியவணக்கம்
+			#Tünaydın,
+			$tiếngchào
+			#test
+			$21e8`, 
+		'HASHTAG_REGEX');
+		console.log({ match }, match.length);
+		expect(!!match).toBe(true);
+	});
 });
