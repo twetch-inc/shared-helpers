@@ -101,4 +101,14 @@ describe('regex', () => {
 		console.log({ match });
 		expect(!!match).toBe(true);
 	});
+	it('dollarAmount', () => {
+		const match = regex.match(`$2.18`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
+	it('pennyAmount', () => {
+		const match = regex.match(`$.218`,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(!!match).toBe(true);
+	});
 });
