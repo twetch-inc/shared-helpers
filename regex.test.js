@@ -101,4 +101,16 @@ describe('regex', () => {
 		console.log({ match });
 		expect(!!match).toBe(true);
 	});
+	it('dollarAmount', () => {
+		const value = '#_,.';
+		const match = regex.match(value,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(match[0]).toBe(value);
+	});
+	it('pennyAmount', () => {
+		const value = `$.218`
+		const match = regex.match(value,'HASHTAG_REGEX');
+		console.log({ match });
+		expect(match[0]).toBe(value);
+	});
 });
