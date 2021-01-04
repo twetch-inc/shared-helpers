@@ -102,7 +102,7 @@ describe('regex', () => {
 		expect(!!match).toBe(true);
 	});
 	it('dollarAmount', () => {
-		const match = regex.match(`$2.18`,'HASHTAG_REGEX');
+		const match = regex.match(`#_,.`,'HASHTAG_REGEX');
 		console.log({ match });
 		expect(!!match).toBe(true);
 	});
