@@ -102,13 +102,15 @@ describe('regex', () => {
 		expect(!!match).toBe(true);
 	});
 	it('dollarAmount', () => {
-		const match = regex.match(`#_,.`,'HASHTAG_REGEX');
+		const value = '#_,.';
+		const match = regex.match(value,'HASHTAG_REGEX');
 		console.log({ match });
-		expect(!!match).toBe(true);
+		expect(match[0]).toBe(value);
 	});
 	it('pennyAmount', () => {
-		const match = regex.match(`$.218`,'HASHTAG_REGEX');
+		const value = `$.218`
+		const match = regex.match(value,'HASHTAG_REGEX');
 		console.log({ match });
-		expect(!!match).toBe(true);
+		expect(match[0]).toBe(value);
 	});
 });
