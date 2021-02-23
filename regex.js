@@ -15,6 +15,7 @@ const TROLL_TOLL_REGEX = /\/(trolltoll) (set|add|remove) @([0-9]+)( \$([0-9]+(.[
 const TROLL_TOLL_DEFAULT_REGEX = /\/(trolltoll) @([0-9]+)( \$([0-9]+(.[0-9]+)?))?/im;
 const TWETCH_POST_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/([A-z0-9_/?=]+)/;
 const TWETCH_REPLY_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/[A-z0-9_/?=]+#([A-z0-9_/?=]+)/;
+const TWONK_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/twonks\/([A-z0-9]+)\/([0-9]+)/;
 const TWITTER_REGEX = /http(s)?:\/\/(.*\.)?twitter\.com\/[A-z0-9_/?=]+/;
 const VIZ_REGEX = /http(s)?:\/\/(.*\.)?viz\.cash\/v\/([A-z0-9]+)/;
 //PAY_TO_ANY
@@ -66,6 +67,7 @@ const options = {
 	TWITTER_REGEX,
 	VIZ_REGEX,
 	YOUTUBE_REGEX,
+	TWONK_REGEX
 };
 
 module.exports = {
