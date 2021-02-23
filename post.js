@@ -126,6 +126,7 @@ class PostHelper {
 		description = description.replace(regex.TWETCH_REPLY_REGEX, '');
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.replace(regex.POLL_REGEX, '');
+		description = description.replace(regex.TWONK_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
 
 		description = description.trim();
@@ -155,6 +156,7 @@ class PostHelper {
 		description = description.replace(regex.TWETCH_POST_REGEX, '');
 		description = description.replace(regex.POLL_REGEX, '');
 		description = description.replace(regex.POST_NEWLINE_REGREX, '\n\n');
+		description = description.replace(regex.TWONK_REGEX, '');
 
 		description = description.trim();
 
