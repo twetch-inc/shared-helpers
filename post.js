@@ -10,7 +10,6 @@ linkify.tlds(tlds);
 
 class PostHelper {
 	static entities(post, options = { underscore: false, unfurl: false }) {
-		console.log({ post });
 
 		try {
 			const description = this.description(post, options);
