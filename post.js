@@ -10,7 +10,6 @@ linkify.tlds(tlds);
 
 class PostHelper {
 	static entities(post, options = { underscore: false, unfurl: false }) {
-
 		try {
 			const description = this.description(post, options);
 			const contentType = this.contentType(post, options);
@@ -31,6 +30,7 @@ class PostHelper {
 				type: this.type(post, options),
 				files: this.files(post, options),
 				embeds: {
+					tonicpow: description.match(regex.TONICPOW_REGEX),
 					twonk: description.match(regex.TWONK_REGEX),
 					urls: this.unfurl(post, options),
 					soundcloud: description.match(regex.SOUNDCLOUD_REGEX),
