@@ -17,8 +17,10 @@ const TWETCH_POST_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/([A-z0-9_/?=]+)/;
 const TWETCH_REPLY_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/t\/[A-z0-9_/?=]+#([A-z0-9_/?=]+)/;
 const TWONK_REGEX = /http(s)?:\/\/(.*\.)?twetch\.app\/twonks\/([A-z0-9]+)\/([0-9]+)/;
 const TWITTER_REGEX = /http(s)?:\/\/(.*\.)?twitter\.com\/[A-z0-9_/?=]+/;
-const TONICPOW_REGEX = /http(s)?:\/\/tpow\.app\/([A-z0-9]+)/
+const TONICPOW_REGEX = /http(s)?:\/\/tpow\.app\/([A-z0-9]+)/;
 const VIZ_REGEX = /http(s)?:\/\/(.*\.)?viz\.cash\/v\/([A-z0-9]+)/;
+const DE_REGEX = /#!de /;
+
 //PAY_TO_ANY
 const PAY_ANY = /(\/[pP][aA][yY])\s+((\@\d+\s+)|([a-zA-Z\-\_\d]+@[a-zA-Z\-\_\d\.]+[a-zA-Z\d]\s+)|([1][a-km-zA-HJ-NP-Z\d]{25,34}\s+)|([$][a-zA-Z\d-_.]{4,50}\s+)|([1][a-zA-Z\d]+\s+))+(((((\d{1,8})?(\.\d{1,8}))|((\d{1,8})(\.\d{1,8})?))\s*([bB][sS][vV]))|([$][\d]+(\.[\d]+)?))/g;
 const PAY_ANY_PAYMAIL = /^[a-zA-Z\-\_\d]+@[a-zA-Z\-\_\d\.]+[a-zA-Z\d]/;
@@ -69,10 +71,11 @@ const options = {
 	VIZ_REGEX,
 	YOUTUBE_REGEX,
 	TWONK_REGEX,
-	TONICPOW_REGEX
+	TONICPOW_REGEX,
+	DE_REGEX
 };
 
 module.exports = {
 	...options,
-	match,
+	match
 };
