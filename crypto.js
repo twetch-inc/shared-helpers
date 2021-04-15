@@ -18,7 +18,7 @@ class Crypto {
 	}
 
 	static aesCBCEncrypt(plainText, kE, iV) {
-		const plainBytes = Aes.utils.utf8.toBytes(encodeURIComponent(plainText));
+		const plainBytes = Aes.padding.pkcs7.pad(Aes.utils.utf8.toBytes(encodeURIComponent(plainText)));
 		const aes = new Aes.ModeOfOperation.cbc(kE, iV);
 		const encryptedBytes = aes.encrypt(plainBytes);
 		const encryptedHex = Aes.utils.hex.fromBytes(encryptedBytes);
@@ -28,7 +28,7 @@ class Crypto {
 	static aesCBCDecrypt(encryptedHex, kE, iV) {
 		const encryptedBytes = Aes.utils.hex.toBytes(encryptedHex).slice(37, -32);
 		const aes = new Aes.ModeOfOperation.cbc(kE, iV);
-		const plainBytes = aes.decrypt(encryptedBytes);
+		const plainBytes = Aes.padding.pkcs7.strip(aes.decrypt(encryptedBytes));
 		const plainText = decodeURIComponent(Aes.utils.utf8.fromBytes(plainBytes));
 		return plainText;
 	}
