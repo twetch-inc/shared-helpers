@@ -6,13 +6,28 @@ class Crypto {
 		const aes = new Aes.ModeOfOperation.ctr(key);
 		const encryptedBytes = aes.encrypt(plainBytes);
 		const encryptedHex = Aes.utils.hex.fromBytes(encryptedBytes);
-
 		return encryptedHex;
 	}
 
 	static aesDecrypt(encryptedHex, key) {
 		const encryptedBytes = Aes.utils.hex.toBytes(encryptedHex);
 		const aes = new Aes.ModeOfOperation.ctr(key);
+		const plainBytes = aes.decrypt(encryptedBytes);
+		const plainText = decodeURIComponent(Aes.utils.utf8.fromBytes(plainBytes));
+		return plainText;
+	}
+
+	static aesCBCEncrypt(plainText, kE, iV) {
+		const plainBytes = Aes.utils.utf8.toBytes(encodeURIComponent(plainText));
+		const aes = new Aes.ModeOfOperation.cbc(kE, iV);
+		const encryptedBytes = aes.encrypt(plainBytes);
+		const encryptedHex = Aes.utils.hex.fromBytes(encryptedBytes);
+		return encryptedHex;
+	}
+
+	static aesCBCDecrypt(encryptedHex, kE, iV) {
+		const encryptedBytes = Aes.utils.hex.toBytes(encryptedHex).slice(37, -32);
+		const aes = new Aes.ModeOfOperation.cbc(kE, iV);
 		const plainBytes = aes.decrypt(encryptedBytes);
 		const plainText = decodeURIComponent(Aes.utils.utf8.fromBytes(plainBytes));
 		return plainText;
