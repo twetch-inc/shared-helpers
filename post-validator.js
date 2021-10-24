@@ -32,13 +32,6 @@ class PostValidator {
 
 	validateDescription() {
 		const descriptionLength = this.descriptionLength();
-		if (descriptionLength > 256) {
-			return {
-				valid: false,
-				error: 'description must be less than 256 characters'
-			};
-		}
-
 		return { valid: true };
 	}
 
