@@ -14,7 +14,7 @@
     "lodash": "4.17.15",
     "prettier": "2.0.5",
     "tlds": "1.208.0",
-    "validator": "12.2.0"
+    "validator": "13.7.0"
   },
   "devDependencies": {
     "jest": "^25.2.7"
